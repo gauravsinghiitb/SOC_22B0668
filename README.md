@@ -1,3 +1,4 @@
 # SOC_22B0668
 SUMMER OF CODE 2024
 PROJECT - ONLINE TRADING USING PINE SCRIPT
+## Final submission is in Final Project folder
