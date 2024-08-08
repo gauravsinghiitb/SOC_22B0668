@@ -1,0 +1,20 @@
+//@version=5
+indicator("TrendCatcher", overlay=true)
+
+// Define the short-term and long-term moving averages
+short_period = 10
+long_period = 30
+short_ma = ta.sma(close, short_period)
+long_ma = ta.sma(close, long_period)
+
+// Plot the moving averages
+plot(short_ma, color=color.blue, title="Short MA")
+plot(long_ma, color=color.red, title="Long MA")
+
+// Buy and sell signals
+longCondition = ta.crossover(short_ma, long_ma)
+shortCondition = ta.crossunder(short_ma, long_ma)
+
+// Plot buy and sell signals
+plotshape(series=longCondition, location=location.belowbar, color=color.green, style=shape.labelup, text="BUY")
+plotshape(series=shortCondition, location=location.abovebar, color=color.red, style=shape.labeldown, text="SELL")
