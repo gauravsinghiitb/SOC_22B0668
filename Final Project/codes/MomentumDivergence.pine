@@ -1,0 +1,22 @@
+//@version=5
+indicator("MomentumDivergence", overlay=true)
+
+// Define the MACD
+fast_length = 12
+slow_length = 26
+signal_smoothing = 9
+
+macdLine = ta.ema(close, fast_length) - ta.ema(close, slow_length)
+signalLine = ta.ema(macdLine, signal_smoothing)
+
+// Plot the MACD and Signal Line
+plot(macdLine, color=color.blue, title="MACD Line")
+plot(signalLine, color=color.orange, title="Signal Line")
+
+// Buy and sell signals
+buyCondition = ta.crossover(macdLine, signalLine)
+sellCondition = ta.crossunder(macdLine, signalLine)
+
+// Plot buy and sell signals
+plotshape(series=buyCondition, location=location.belowbar, color=color.green, style=shape.labelup, text="BUY")
+plotshape(series=sellCondition, location=location.abovebar, color=color.red, style=shape.labeldown, text="SELL")
