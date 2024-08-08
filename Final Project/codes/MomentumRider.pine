@@ -1,0 +1,29 @@
+//@version=5
+indicator("Momentum Rider", overlay=true)
+
+// Define the Stochastic Oscillator parameters
+length = 14
+smoothK = 3
+smoothD = 3
+
+// Calculate the %K line
+highestHigh = ta.highest(high, length)
+lowestLow = ta.lowest(low, length)
+k = 100 * (close - lowestLow) / (highestHigh - lowestLow)
+
+// Smooth %K line to get %D line
+d = ta.sma(k, smoothD)
+
+// Plot the Stochastic Oscillator lines
+hline(185, "Overbought", color=color.red)
+hline(180, "Oversold", color=color.green)
+plot(k, color=color.blue, title="%K")
+plot(d, color=color.orange, title="%D")
+
+// Buy and sell signals
+buyCondition = ta.crossover(k, d) and k < 20
+sellCondition = ta.crossunder(k, d) and k > 80
+
+// Plot buy and sell signals
+plotshape(series=buyCondition, location=location.belowbar, color=color.green, style=shape.labelup, text="BUY")
+plotshape(series=sellCondition, location=location.abovebar, color=color.red, style=shape.labeldown, text="SELL")
